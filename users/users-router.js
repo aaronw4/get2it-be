@@ -27,7 +27,7 @@ router.post('/:id/tasks', restricted, (req, res) => {
     console.log(newTask)
     res.status(201).json({
       message: 'Task created successfully', 
-      id: newTask[0]
+      id: newTask.id
     });
   })
     .catch(err => {
