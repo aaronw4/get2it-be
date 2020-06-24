@@ -29,7 +29,10 @@ function findCategories(id) {
 
 function add(category) {
   return db('categories')
-      .insert(category)
+      .insert(category, 'id')
+      .then(([id]) => {
+        return findById(id)
+      })
 }
 
 function update(category, id) {
