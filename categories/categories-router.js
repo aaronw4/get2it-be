@@ -59,6 +59,7 @@ router.get('/categories/:id', restricted, (req, res) => {
 router.put('/categories/:id', restricted, (req, res) => {
   const {id} = req.params;
   const changes = {...req.body};
+  
   Categories.findById(id)
     .then(category => {
       if(category) {
@@ -78,6 +79,18 @@ router.put('/categories/:id', restricted, (req, res) => {
 router.delete('/categories/:id', restricted, (req, res) => {
   const {id} = req.params;
 
+  CatTask.remove(id)
+    .then(deleted => {
+      if(deleted) {
+        res.json({removed: deleted});
+      } else {
+        res.status(404).json({message: 'Could not find category with given id'});
+      }
+    })
+    .catch(err => {
+      res.status(500).json({message: 'Failed to delete category'});
+    });
+    
   Categories.remove(id)
     .then(deleted => {
       if(deleted) {
