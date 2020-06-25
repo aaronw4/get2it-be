@@ -46,7 +46,7 @@ exports.up = function(knex) {
                     .references('id')
                     .inTable('tasks')
                     .onUpdate('CASCADE')
-                    .onDelete('RESTRICT');
+                    .onDelete('CASCADE');
                 table.integer('category_id')
                     .unsigned()
                     .notNullable()
