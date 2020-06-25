@@ -84,24 +84,25 @@ router.delete('/categories/:id', restricted, (req, res) => {
       if(deleted) {
         res.json({removed: deleted});
       } else {
-        res.status(404).json({message: 'Could not find category with given id'});
+        res.status(404).json({message: 'Could not find catTask with given task id'});
       }
     })
+    .then(
+      Categories.remove(id)
+        .then(deleted => {
+          if(deleted) {
+            res.json({removed: deleted});
+          } else {
+            res.status(404).json({message: 'Could not find category with given id'});
+          }
+        })
+        .catch(err => {
+          res.status(500).json({message: 'Failed to delete category'});
+        })
+    )
     .catch(err => {
       res.status(500).json({message: 'Failed to delete category'});
-    });
-    
-  Categories.remove(id)
-    .then(deleted => {
-      if(deleted) {
-        res.json({removed: deleted});
-      } else {
-        res.status(404).json({message: 'Could not find category with given id'});
-      }
-    })
-    .catch(err => {
-      res.status(500).json({message: 'Failed to delete category'});
-    });
+    });  
 });
 
 router.get('/tasks/:id', restricted, (req, res) => {
